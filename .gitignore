@@ -60,3 +60,16 @@ fastlane/report.xml
 fastlane/Preview.html
 fastlane/screenshots/**/*.png
 fastlane/test_output
+
+# LLVM/Clang profiling & coverage artifacts
+*.profraw
+*.profdata
+
+# ignore all dot files (keep local)
+.*
+# exeptions
+!.gitignore
+
+
+# Build Server Protocol (local tooling)
+buildServer.json
