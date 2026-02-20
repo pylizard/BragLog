@@ -11,6 +11,8 @@ final class EntryViewModel: ObservableObject {
     @Published var message: String = ""
     @Published var selectedTags: [String] = []
     @Published var allTags: [Tag] = []
+    @Published var selectedProject: String?
+    @Published var allProjects: [Project] = []
     @Published var saveError: String?
     @Published var shouldClosePopover: Bool = false
 
@@ -26,8 +28,10 @@ final class EntryViewModel: ObservableObject {
         loadTagsTask = Task {
             do {
                 let tags = try database.fetchAllTags()
+                let projects = try database.fetchAllProjects()
                 if !Task.isCancelled {
                     allTags = tags
+                    allProjects = projects
                 }
             } catch {
                 if !Task.isCancelled {
@@ -46,10 +50,12 @@ final class EntryViewModel: ObservableObject {
         guard !trimmed.isEmpty else { return }
         saveError = nil
         do {
-            try database.saveEntry(message: trimmed, tags: selectedTags.isEmpty ? nil : selectedTags)
+            try database.saveEntry(message: trimmed, tags: selectedTags.isEmpty ? nil : selectedTags, project: selectedProject)
             message = ""
             selectedTags = []
+            selectedProject = nil
             shouldClosePopover = true
+            loadTags()
         } catch {
             saveError = (error as? DatabaseError).map { "\($0)" } ?? error.localizedDescription
         }

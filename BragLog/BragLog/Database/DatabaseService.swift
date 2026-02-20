@@ -95,7 +95,22 @@ final class DatabaseService {
         return result
     }
 
-    func saveEntry(message: String, tags: [String]?) throws {
+    func fetchAllProjects() throws -> [Project] {
+        var stmt: OpaquePointer?
+        defer { sqlite3_finalize(stmt) }
+        let sql = "SELECT name FROM project ORDER BY name COLLATE NOCASE"
+        guard sqlite3_prepare_v2(db, sql, -1, &stmt, nil) == SQLITE_OK else {
+            throw DatabaseError.prepareFailed(String(cString: sqlite3_errmsg(db)))
+        }
+        var result: [Project] = []
+        while sqlite3_step(stmt) == SQLITE_ROW {
+            let name = String(cString: sqlite3_column_text(stmt, 0))
+            result.append(Project(name: name))
+        }
+        return result
+    }
+
+    func saveEntry(message: String, tags: [String]?, project: String? = nil) throws {
         let normalized = (tags ?? []).map { $0.trimmingCharacters(in: .whitespaces) }.filter { !$0.isEmpty }
         let tagsString: String? = normalized.isEmpty ? nil : normalized.joined(separator: ",")
         for tag in normalized {
@@ -110,9 +125,23 @@ final class DatabaseService {
                 throw DatabaseError.stepFailed(String(cString: sqlite3_errmsg(db)))
             }
         }
+        let projectTrimmed = project?.trimmingCharacters(in: .whitespaces)
+        let projectValue: String? = (projectTrimmed?.isEmpty ?? true) ? nil : projectTrimmed
+        if let p = projectValue {
+            var insertProject: OpaquePointer?
+            defer { sqlite3_finalize(insertProject) }
+            let projectSql = "INSERT OR IGNORE INTO project (name) VALUES (?1)"
+            guard sqlite3_prepare_v2(db, projectSql, -1, &insertProject, nil) == SQLITE_OK else {
+                throw DatabaseError.prepareFailed(String(cString: sqlite3_errmsg(db)))
+            }
+            sqlite3_bind_text(insertProject, 1, p, -1, SQLITE_TRANSIENT)
+            guard sqlite3_step(insertProject) == SQLITE_DONE else {
+                throw DatabaseError.stepFailed(String(cString: sqlite3_errmsg(db)))
+            }
+        }
         var insertLog: OpaquePointer?
         defer { sqlite3_finalize(insertLog) }
-        let logSql = "INSERT INTO logs (message, tags) VALUES (?1, ?2)"
+        let logSql = "INSERT INTO logs (message, tags, project) VALUES (?1, ?2, ?3)"
         guard sqlite3_prepare_v2(db, logSql, -1, &insertLog, nil) == SQLITE_OK else {
             throw DatabaseError.prepareFailed(String(cString: sqlite3_errmsg(db)))
         }
@@ -121,6 +150,11 @@ final class DatabaseService {
             sqlite3_bind_text(insertLog, 2, t, -1, SQLITE_TRANSIENT)
         } else {
             sqlite3_bind_null(insertLog, 2)
+        }
+        if let p = projectValue {
+            sqlite3_bind_text(insertLog, 3, p, -1, SQLITE_TRANSIENT)
+        } else {
+            sqlite3_bind_null(insertLog, 3)
         }
         guard sqlite3_step(insertLog) == SQLITE_DONE else {
             throw DatabaseError.stepFailed(String(cString: sqlite3_errmsg(db)))
@@ -174,6 +208,18 @@ final class DatabaseService {
         var stmt: OpaquePointer?
         defer { sqlite3_finalize(stmt) }
         let sql = "SELECT tags FROM logs ORDER BY id DESC LIMIT 1"
+        guard sqlite3_prepare_v2(db, sql, -1, &stmt, nil) == SQLITE_OK else {
+            throw DatabaseError.prepareFailed(String(cString: sqlite3_errmsg(db)))
+        }
+        guard sqlite3_step(stmt) == SQLITE_ROW else { return nil }
+        if sqlite3_column_type(stmt, 0) == SQLITE_NULL { return nil }
+        return String(cString: sqlite3_column_text(stmt, 0))
+    }
+
+    func fetchLastLogRawProject() throws -> String? {
+        var stmt: OpaquePointer?
+        defer { sqlite3_finalize(stmt) }
+        let sql = "SELECT project FROM logs ORDER BY id DESC LIMIT 1"
         guard sqlite3_prepare_v2(db, sql, -1, &stmt, nil) == SQLITE_OK else {
             throw DatabaseError.prepareFailed(String(cString: sqlite3_errmsg(db)))
         }

@@ -27,7 +27,7 @@ struct EntryView: View {
                 )
                 .overlay(Group {
                     if viewModel.message.isEmpty {
-                        Text("Main log entry")
+                        Text("Log your work")
                             .foregroundStyle(.tertiary)
                             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
                             .padding(.top, 1)
@@ -36,6 +36,11 @@ struct EntryView: View {
                     }
                 }, alignment: .topLeading)
                 .focused($messageFocused)
+
+            ProjectFieldView(
+                selectedProject: $viewModel.selectedProject,
+                allProjects: viewModel.allProjects
+            )
 
             TagsFieldView(
                 selectedTags: $viewModel.selectedTags,
