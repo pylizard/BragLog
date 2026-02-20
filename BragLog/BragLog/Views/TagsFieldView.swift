@@ -19,28 +19,6 @@ struct TagsFieldView: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 6) {
-            if !selectedTags.isEmpty {
-                FlowLayout(spacing: 4) {
-                    ForEach(selectedTags, id: \.self) { tag in
-                        HStack(spacing: 2) {
-                            Text(tag)
-                                .font(.callout)
-                                .lineLimit(1)
-                            Button {
-                                selectedTags.removeAll { $0 == tag }
-                            } label: {
-                                Image(systemName: "xmark.circle.fill")
-                                    .font(.caption)
-                            }
-                            .buttonStyle(.plain)
-                        }
-                        .padding(.horizontal, 6)
-                        .padding(.vertical, 4)
-                        .background(Color.accentColor.opacity(0.2))
-                        .clipShape(Capsule())
-                    }
-                }
-            }
             StringDropdownField(
                 items: availableTagNames,
                 text: filterText,
@@ -66,6 +44,28 @@ struct TagsFieldView: View {
                 RoundedRectangle(cornerRadius: 6)
                     .strokeBorder(Color(nsColor: .separatorColor), lineWidth: 0.5)
             )
+            if !selectedTags.isEmpty {
+                FlowLayout(spacing: 4) {
+                    ForEach(selectedTags, id: \.self) { tag in
+                        HStack(spacing: 2) {
+                            Text(tag)
+                                .font(.callout)
+                                .lineLimit(1)
+                            Button {
+                                selectedTags.removeAll { $0 == tag }
+                            } label: {
+                                Image(systemName: "xmark.circle.fill")
+                                    .font(.caption)
+                            }
+                            .buttonStyle(.plain)
+                        }
+                        .padding(.horizontal, 6)
+                        .padding(.vertical, 4)
+                        .background(Color.accentColor.opacity(0.2))
+                        .clipShape(Capsule())
+                    }
+                }
+            }
         }
     }
 }
