@@ -6,6 +6,16 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXContainerItemProxy section */
+		DB46EA622F43DF460083F250 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DB46EA412F43DF460083F24E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = DB46EA482F43DF460083F24E;
+			remoteInfo = BragLog;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
 		DB46EA492F43DF460083F24E /* BragLog.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BragLog.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DB46EA582F43DF460083F250 /* BragLogTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BragLogTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -110,24 +120,6 @@
 		};
 /* End PBXNativeTarget section */
 
-/* Begin PBXTargetDependency section */
-		DB46EA612F43DF460083F250 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = DB46EA482F43DF460083F24E /* BragLog */;
-			targetProxy = DB46EA622F43DF460083F250 /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
-
-/* Begin PBXContainerItemProxy section */
-		DB46EA622F43DF460083F250 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = DB46EA412F43DF460083F24E /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = DB46EA482F43DF460083F24E;
-			remoteInfo = BragLog;
-		};
-/* End PBXContainerItemProxy section */
-
 /* Begin PBXProject section */
 		DB46EA412F43DF460083F24E /* Project object */ = {
 			isa = PBXProject;
@@ -197,6 +189,14 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		DB46EA612F43DF460083F250 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = DB46EA482F43DF460083F24E /* BragLog */;
+			targetProxy = DB46EA622F43DF460083F250 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		DB46EA532F43DF470083F24E /* Debug */ = {
