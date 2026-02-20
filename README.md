@@ -4,7 +4,7 @@ A tiny **menu-bar work log**: capture what you did (with optional tags and proje
 
 You also get a little fellow [duck to talk to](https://rubberduckdebugging.com/) in the menu bar — the app icon is a rubber duck so your debugging buddy is always in sight.
 
-<img src="rubber_duck.png" alt="BragLog popover with rubber duck in the menu bar" width="25%" style="border-radius: 5px"/>
+<img src="rubber_duck.png" alt="BragLog popover with rubber duck in the menu bar" width="35%" style="border-radius: 15px"/>
 
 > Inspired by:
 > - [Don't Do Invisible Work](https://www.youtube.com/watch?v=HiF83i1OLOM) - Chris Albon
