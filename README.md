@@ -2,7 +2,7 @@
 
 A tiny **menu-bar work log**: capture what you did (with optional tags and project) so it’s easy to surface later for performance reviews, CVs, etc. All data stays local in a SQLite database.
 
-You also get a little fellow [duck to talk to](https://rubberduckdebugging.com/) in the menu bar — the app icon is a rubber duck so your debugging buddy is always in sight.
+You also get a little fellow [duck to talk to](https://rubberduckdebugging.com/) in the menu bar so your debugging buddy is always in sight.
 
 <img src="rubber_duck.png" alt="BragLog popover with rubber duck in the menu bar" width="35%" style="border-radius: 15px"/>
 
